@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block title %}
+Files Index
+{% endblock title %}
+
+{% block header %}
+<h1>Files Index</h1>
+{% endblock header %}
+
+{% block content %}
+<ul>
+{% for file in files %}
+    <li><a href={% url 'files:details' file.pk %}>{{ file }}</a></li>
+{% endfor %}
+</ul>
+{% endblock content %}
