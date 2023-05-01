@@ -16,14 +16,18 @@ def index(request):
 
 @login_required
 def details(request, file_id):
-    file = get_object_or_404(UserFile, pk=file_id)
-    context = dict(file=file)
+    userfile = get_object_or_404(UserFile, pk=file_id)
+    try:
+        preview = open(userfile.file.path).read()[:1000]
+    except UnicodeDecodeError:
+        preview = "No preview available."
+    context = dict(file=userfile, preview=preview)
     return render(request, "files/details.html", context)
 
 
 @login_required
 def download(request, file_id):
-    userfile = UserFile.objects.get(pk=file_id)
+    userfile = get_object_or_404(UserFile, pk=file_id)
     file_buffer = open(userfile.file.path, "rb").read()
     headers = {
         "Content-Type": magic.from_buffer(file_buffer, mime=True),

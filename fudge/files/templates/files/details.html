@@ -10,7 +10,14 @@ File: {{ file.name }}
 
 {% block content %}
 <p>Size: {{ file.file.size }} bytes</p>
-<a href="{% url 'files:download' file.pk %}">Download</a>
 
-<p><a href={% url 'files:delete' file.pk %}>Delete file</a></p>
+<p>
+<a href={% url 'files:download' file.pk %}>Download</a> |
+<a href={% url 'files:delete' file.pk %}>Delete</a>
+</p>
+
+<h3>Preview:</h3>
+<p>
+{{ preview }}
+</p>
 {% endblock %}
