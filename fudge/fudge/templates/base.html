@@ -1,11 +1,23 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>{% block title %}Fudge Server{% endblock title %} - Fudge Server</title>
+  <title>
+  {% block title %}Fudge Server{% endblock title %} - Fudge Server
+  </title>
   {% block css %}{% endblock css %}
 </head>
 
 <body>
-{% block header %}<h1>No header.</h1>{% endblock header %}
-{% block content %}No content.{% endblock content %}
+
+{% if request.user.is_authenticated %}
+    Logged in as {{ request.user }}. <a href="/account/logout" %}>Log out</a>
+{% else %}
+    Not logged in. <a href="/account/login">Log in</a>
+{% endif %}
+<hr>
+
+{% block header %}{% endblock header %}
+
+{% block content %}{% endblock content %}
+
 </body>
