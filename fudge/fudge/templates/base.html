@@ -10,9 +10,12 @@
 <body style="background-color:#7c868d;">
 
 {% if request.user.is_authenticated %}
-    Logged in as {{ request.user }}. <a href="/account/logout" %}>Log out</a>
+    <a href={% url 'files:index' %}>File Index</a> |
+    <a href={% url 'files:upload' %}>Upload</a> |
+    <a href="/account/logout" %}>Log out</a> |
+    Logged in as {{ request.user }}.
 {% else %}
-    Not logged in. <a href="/account/login">Log in</a>
+    <a href="/account/login">Log in</a>
 {% endif %}
 <hr>
 
