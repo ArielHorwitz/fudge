@@ -12,5 +12,7 @@ File: {{ file.name }}
 <p>Size: {{ file.file.size }} bytes</p>
 <a href="{% url 'files:download' file.pk %}" type="button">Download</a>
 
+<p><a href={% url 'files:delete' file.pk %}>Delete file</a></p>
+
 <p><a href={% url 'files:index' %}>Back to index</a></p>
 {% endblock %}

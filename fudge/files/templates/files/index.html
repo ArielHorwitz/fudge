@@ -9,9 +9,13 @@ Files Index
 {% endblock header %}
 
 {% block content %}
+<p>
 <ul>
 {% for file in files %}
     <li><a href={% url 'files:details' file.pk %}>{{ file }}</a></li>
 {% endfor %}
 </ul>
+</p>
+
+<a href={% url 'files:upload' %}>Upload file</a>
 {% endblock content %}

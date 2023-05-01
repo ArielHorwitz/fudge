@@ -1,8 +1,9 @@
 import magic
 from django.shortcuts import render, get_object_or_404
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 
 from .models import UserFile
+from .forms import UploadFileForm
 
 
 def index(request):
@@ -25,3 +26,21 @@ def download(request, file_id):
         "Content-Disposition": f'attachment; filename="{userfile.name}"',
     }
     return HttpResponse(file_buffer, headers=headers)
+
+
+def upload(request):
+    if request.method == "POST":
+        form = UploadFileForm(request.POST, request.FILES)
+        if form.is_valid():
+            uploaded_file = request.FILES["file"]
+            userfile = UserFile(file=uploaded_file)
+            userfile.save()
+            return HttpResponseRedirect("/")
+    else:
+        form = UploadFileForm()
+    return render(request, "files/upload.html", {"form": form})
+
+
+def delete(request, file_id):
+    UserFile.objects.get(pk=file_id).delete()
+    return HttpResponseRedirect("/")
