@@ -43,7 +43,11 @@ def upload(request):
         form = UploadFileForm(request.POST, request.FILES)
         if form.is_valid():
             uploaded_file = request.FILES["file"]
-            userfile = UserFile(user=request.user, file=uploaded_file)
+            userfile = UserFile(
+                user=request.user,
+                file=uploaded_file,
+                original_filename=uploaded_file.name,
+            )
             userfile.save()
             return HttpResponseRedirect("/")
     else:
