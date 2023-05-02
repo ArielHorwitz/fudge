@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
 from pathlib import Path
+import secrets
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -20,7 +21,20 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-i3e*755mi=lxi09h7y-614*)j!g7nkj&lj-vhf55oh4zr0_96-'
+def _get_secret_key():
+    secret_key_file = BASE_DIR / "SECRET_KEY"
+    if secret_key_file.is_file():
+        with open(secret_key_file) as f:
+            return f.read().strip()
+    secret_key = secrets.token_urlsafe()
+    with open(secret_key_file, "w") as f:
+        f.write(secret_key)
+    print(f"Generated new secret key at {secret_key_file}")
+    return secret_key
+
+
+SECRET_KEY = _get_secret_key()
+
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -87,7 +101,8 @@ DATABASES = {
 
 AUTH_PASSWORD_VALIDATORS = [
     {
-        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
+        'NAME':
+            'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
     },
     {
         'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
