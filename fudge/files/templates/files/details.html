@@ -12,8 +12,8 @@ File: {{ file.name }}
 <p>Size: {{ file.file.size }} bytes</p>
 
 <p>
-<a href={% url 'files:download' file.pk %}>Download</a> |
-<a href={% url 'files:delete' file.pk %}>Delete</a>
+<a href={% url 'files:download' file.id %}>Download</a> |
+<a href={% url 'files:delete' file.id %}>Delete</a>
 </p>
 
 <h3>Preview:</h3>

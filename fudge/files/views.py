@@ -10,14 +10,14 @@ from .forms import UploadFileForm
 
 @login_required
 def index(request):
-    all_files = list(UserFile.objects.all())
-    context = dict(files=all_files)
+    userfiles = UserFile.objects.filter(user__id=request.user.id)
+    context = dict(files=userfiles)
     return render(request, "files/index.html", context)
 
 
 @login_required
 def details(request, file_id):
-    userfile = get_object_or_404(UserFile, pk=file_id)
+    userfile = get_object_or_404(UserFile, id=file_id)
     try:
         preview = open(userfile.file.path).read()[:1000]
     except UnicodeDecodeError:
@@ -28,7 +28,7 @@ def details(request, file_id):
 
 @login_required
 def download(request, file_id):
-    userfile = get_object_or_404(UserFile, pk=file_id)
+    userfile = get_object_or_404(UserFile, id=file_id)
     file_buffer = open(userfile.file.path, "rb").read()
     headers = {
         "Content-Type": magic.from_buffer(file_buffer, mime=True),
@@ -43,7 +43,7 @@ def upload(request):
         form = UploadFileForm(request.POST, request.FILES)
         if form.is_valid():
             uploaded_file = request.FILES["file"]
-            userfile = UserFile(file=uploaded_file)
+            userfile = UserFile(user=request.user, file=uploaded_file)
             userfile.save()
             return HttpResponseRedirect("/")
     else:
@@ -53,7 +53,7 @@ def upload(request):
 
 @login_required
 def delete(request, file_id):
-    userfile = get_object_or_404(UserFile, pk=file_id)
+    userfile = get_object_or_404(UserFile, id=file_id)
     Path(userfile.file.path).unlink()
     userfile.delete()
     return HttpResponseRedirect("/")

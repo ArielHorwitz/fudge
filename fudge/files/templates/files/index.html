@@ -12,7 +12,7 @@ Files Index
 <p>
 <ul>
 {% for file in files %}
-    <li><a href={% url 'files:details' file.pk %}>{{ file }}</a></li>
+    <li><a href={% url 'files:details' file.id %}>{{ file }}</a></li>
 {% endfor %}
 </ul>
 </p>
