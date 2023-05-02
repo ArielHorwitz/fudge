@@ -19,7 +19,8 @@ def index(request):
 def details(request, file_id):
     userfile = get_object_or_404(UserFile, id=file_id)
     try:
-        preview = open(userfile.file.path).read()[:1000]
+        with open(userfile.file.path) as f:
+            preview = str(f.read())[:1000]
     except UnicodeDecodeError:
         preview = "No preview available."
     context = dict(file=userfile, preview=preview)
@@ -29,7 +30,8 @@ def details(request, file_id):
 @login_required
 def download(request, file_id):
     userfile = get_object_or_404(UserFile, id=file_id)
-    file_buffer = open(userfile.file.path, "rb").read()
+    with open(userfile.file.path, "rb") as f:
+        file_buffer = f.read()
     headers = {
         "Content-Type": magic.from_buffer(file_buffer, mime=True),
         "Content-Disposition": f'attachment; filename="{userfile.name}"',
