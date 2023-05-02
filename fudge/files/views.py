@@ -1,3 +1,4 @@
+from pathlib import Path
 import magic
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, get_object_or_404
@@ -52,5 +53,7 @@ def upload(request):
 
 @login_required
 def delete(request, file_id):
-    UserFile.objects.get(pk=file_id).delete()
+    userfile = get_object_or_404(UserFile, pk=file_id)
+    Path(userfile.file.path).unlink()
+    userfile.delete()
     return HttpResponseRedirect("/")
