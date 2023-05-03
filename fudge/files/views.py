@@ -4,7 +4,7 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse, HttpResponseRedirect
 
-from .models import UserFile
+from .models import UserFile, ApiToken
 from .forms import UploadFileForm
 
 
@@ -63,3 +63,11 @@ def delete(request, file_id):
     Path(userfile.file.path).unlink()
     userfile.delete()
     return HttpResponseRedirect("/")
+
+
+@login_required
+def generate_api_token(request):
+    ApiToken.objects.filter(user=request.user).delete()
+    new_token = ApiToken.generate_random(request.user)
+    new_token.save()
+    return render(request, "files/api-token.html", dict(token=new_token.token))

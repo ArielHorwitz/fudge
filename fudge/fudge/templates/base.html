@@ -12,6 +12,7 @@
 {% if request.user.is_authenticated %}
     <a href={% url 'files:index' %}>File Index</a> |
     <a href={% url 'files:upload' %}>Upload</a> |
+    <a href={% url 'files:gen_api_token' %}>API</a> |
     <a href="/admin" %}>Admin</a> |
     <a href="/account/logout" %}>Log out</a> |
     Logged in as {{ request.user }}.

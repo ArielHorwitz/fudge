@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block title %}
+API Token
+{% endblock title %}
+
+{% block header %}
+<h1>API Token</h1>
+{% endblock header %}
+
+{% block content %}
+<p>Your API token (double-click to show):
+<br>
+<code style="background-color: #000; foreground-color: #000">{{ token }}</code>
+</p>
+<p>
+Use the API at this location:
+<br>
+<a href="/api/v1/index/">/api/v1/index/?token=TOKEN</a>
+</p>
+{% endblock %}
