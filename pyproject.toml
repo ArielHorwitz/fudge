@@ -12,3 +12,8 @@ dependencies = [
     "Django==4.2",
     "python-magic>=0.4.27",
 ]
+
+[tool.setuptools.packages.find]
+include = [
+  "fudge",
+]
