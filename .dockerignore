@@ -1,0 +1,6 @@
+__pycache__/
+venv/
+media/
+*.egg-info/
+*.sqlite3
+SECRET_KEY
