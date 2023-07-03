@@ -8,7 +8,7 @@ A simple file hosting/sharing server.
 cd path/to/fudge
 python -m venv venv
 source venv/bin/activate
-pip install -e .
+pip install -r requirements.txt
 cd fudge
 python manage.py makemigrations
 python manage.py migrate
